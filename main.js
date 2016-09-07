@@ -2,11 +2,13 @@ var fruits = ['apple', 'apricot', 'avocado', 'blueberry', 'cherry', 'coconut', '
 
 $(function() {
   $("#submit").on("click", function() {
-    var value = $("#keyword").val();
+    var input = $("#keyword").val();
     $.each(fruits, function(i, fruit) {
-      if (value === fruit) {
-        $("#result").text(value);
+      if (input === fruit) {
+        $("#result").text(input);
         return;
+      } else {
+        $("#result").text("一致する果物はありませんでした。");
       }
     });
   });
