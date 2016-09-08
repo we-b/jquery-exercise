@@ -2,6 +2,8 @@ var fruits = ['apple', 'apricot', 'avocado', 'blueberry', 'cherry', 'coconut', '
 
 $(function() {
   var list = $("#list");
+  var preFunc = null;
+  var preReg;
 
   function appendList(word) {
     var item = $('<li class="list">').append(word);
@@ -13,22 +15,27 @@ $(function() {
     return result;
   }
 
-  $("#submit").on("click", function() {
+  function matchWord(array, reg, message) {
+    $.each(array, function(i, element) {
+      if (element.match(reg)) {
+        appendList(element);
+      }
+    });
+    if ($(".list").length === 0) {
+      appendList(message);
+    }
+  }
+
+  $("#keyword").on("keyup", function() {
     var input = $("#keyword").val();
     var inputs = input.split(" ");
     var newInputs = inputs.map(editElement);
     var reg = RegExp(newInputs.join("|"));
 
     $(".list").remove();
-
-    $.each(fruits, function(i, fruit) {
-      if (fruit.match(reg)) {
-        appendList(fruit);
-      }
-    });
-
-    if ($(".list").length === 0) {
-      appendList("一致する果物はありませんでした");
+    if (input.length !== 0 && reg !== preReg) {
+      clearTimeout(preFunc);
+      preFunc = setTimeout(matchWord(fruits, reg, "一致する果物はありませんでした。"), 500);
     }
   });
 });
