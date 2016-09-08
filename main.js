@@ -8,9 +8,16 @@ $(function() {
     list.append(item);
   }
 
+  function editElement(element) {
+    var result = "^" + element;
+    return result;
+  }
+
   $("#submit").on("click", function() {
     var input = $("#keyword").val();
-    var reg = new RegExp("^" + input);
+    var inputs = input.split(" ");
+    var newInputs = inputs.map(editElement);
+    var reg = RegExp(newInputs.join("|"));
 
     $(".list").remove();
 
